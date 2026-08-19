@@ -28,6 +28,30 @@ Every run remains inspectable: it includes its URL, action history, expected out
 
 Every audience gets the same core benefit: a visual replay of the real browser journey, backed by the exact saved steps, outcomes, and evidence.
 
+## Why choose Pathproof's AI workflow over your agentic coding agent?
+
+An agentic coding tool is excellent when you need custom test architecture, fixtures, assertions, or CI integration. But asking it to create one browser journey can require it to read repository files, understand the existing test framework, inspect the page, generate Playwright code, run it, interpret failures, and revise the code. Pathproof gives the model a narrower job: choose the next action from a safety-filtered inventory, then save the successful journey for deterministic replay.
+
+| For one medium, multi-step browser journey | Agentic coding agent | Pathproof AI setup |
+| --- | ---: | ---: |
+| Context supplied to the model | Repository, test configuration, existing tests, page details, tool output, and prior turns | User goal, current page, completed actions, and available safe controls |
+| Output requested from the model | Test code, selectors, assertions, commands, explanations, and repairs | One action index, an optional value, and a short reason |
+| Estimated input tokens | 40,000–100,000 | 8,000–24,000 |
+| Estimated output tokens | 3,000–10,000 | 200–800 |
+| Model tokens used by later deterministic replays | 0 | 0 |
+
+### Worked example
+
+Using the midpoint of those ranges:
+
+- Agentic coding flow: **70,000 input + 6,500 output = 76,500 tokens**.
+- Pathproof setup: **16,000 input + 500 output = 16,500 tokens**.
+- Illustrative saving: **about 60,000 tokens, or 78%**, while still producing a visually replayable journey.
+
+This is a planning estimate, not a universal benchmark or guaranteed saving. It assumes three to six coding-agent turns versus four to eight constrained Pathproof decisions. Actual usage changes with the model, tokenizer, repository size, page complexity, cache behavior, number of controls, and retries. Compare it with your own telemetry: Anthropic's [Claude Code Analytics API](https://platform.claude.com/docs/en/manage-claude/claude-code-analytics-api) reports input, output, cache-read, and cache-creation tokens by model, and its [token-counting guidance](https://platform.claude.com/docs/en/build-with-claude/token-counting) recommends measuring against the exact model in use.
+
+The comparison concerns initial authoring and AI-assisted repair. Once either approach has a stable Playwright test, ordinary deterministic execution should not need additional model tokens. Choose an agentic coding tool when the deliverable must be maintainable source code with bespoke engineering; choose Pathproof when the goal is to create, inspect, and visually replay a browser journey with less model context and no hand-authored test.
+
 ## Highlights
 
 - AI follows natural-language instructions one safe action at a time.
