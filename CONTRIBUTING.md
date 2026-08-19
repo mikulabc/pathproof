@@ -14,9 +14,9 @@ Thank you for helping improve Pathproof.
 ```bash
 git clone https://github.com/mikulabc/pathproof.git
 cd pathproof
-npm install
+pnpm install
 cp .env.example .env
-npm run dev
+pnpm dev
 ```
 
 AI credentials are optional for most development. Tests must not call paid APIs or depend on external customer sites.
@@ -26,7 +26,7 @@ AI credentials are optional for most development. Tests must not call paid APIs 
 1. Create a focused branch from `main`.
 2. Add or update tests for behavior changes.
 3. Keep fixtures synthetic and deterministic.
-4. Run `npm run check` and `npm run test:e2e`.
+4. Run `pnpm check` and `pnpm test:e2e`.
 5. Update documentation and `CHANGELOG.md` when behavior changes.
 6. Complete the pull-request checklist.
 

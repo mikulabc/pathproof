@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # GitHub's `npm` ecosystem covers package.json with npm, pnpm, or Yarn lockfiles.
   - package-ecosystem: npm
     directory: /
     schedule:

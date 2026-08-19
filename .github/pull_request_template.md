@@ -4,7 +4,7 @@ Describe the problem and the solution.
 
 ## Validation
 
-- [ ] `npm run check`
+- [ ] `pnpm check`
 - [ ] Browser tests were run when relevant
 - [ ] Regression coverage was added or updated
 - [ ] Documentation and `CHANGELOG.md` were updated when needed

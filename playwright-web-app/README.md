@@ -4,7 +4,7 @@ This folder is the web-app distribution entry point paired with `../chrome-exten
 
 ```bash
 cd playwright-web-app
-npm run dev
+pnpm dev
 ```
 
 Open `http://localhost:43827`, create a project for the recording's starting origin, and use **Import recording**. The server validates the portable recording, extracts deterministic user actions, restores browser/session state, and queues concurrent Chromium replays. High-volume diagnostic telemetry stays in the downloaded source recording; replay plans retain only stable actionable steps.

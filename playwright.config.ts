@@ -25,14 +25,14 @@ export default defineConfig({
   webServer: [
     ...(!isExternalApp
       ? [{
-          command: 'npm run build && PORT=4173 npm run start',
+          command: 'pnpm build && PORT=4173 pnpm start',
           url: `${baseURL}/api/health`,
           reuseExistingServer: !process.env.CI,
           timeout: 120_000,
         }]
       : []),
     {
-      command: 'npx tsx tests/fixture/server.ts',
+      command: 'pnpm exec tsx tests/fixture/server.ts',
       url: 'http://127.0.0.1:4317/health',
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,

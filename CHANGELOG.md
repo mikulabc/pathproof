@@ -4,6 +4,13 @@ All notable changes to Pathproof are documented here. The project follows [Seman
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-08-19
+
+### Changed
+
+- Standardized local development, nested launchers, CI, caching, and releases on pnpm 11.
+- Removed the competing npm lockfile and prevented non-pnpm lockfiles from being committed.
+
 ## [0.1.1] - 2026-08-19
 
 ### Security
@@ -31,6 +38,7 @@ All notable changes to Pathproof are documented here. The project follows [Seman
 - Desktop/mobile navigation duplicate resolution and overlay handling.
 - Accessible disambiguation for duplicate arrow controls and filters.
 
-[Unreleased]: https://github.com/mikulabc/pathproof/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/mikulabc/pathproof/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/mikulabc/pathproof/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mikulabc/pathproof/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mikulabc/pathproof/releases/tag/v0.1.0

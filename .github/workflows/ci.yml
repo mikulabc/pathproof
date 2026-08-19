@@ -25,21 +25,23 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Type-check
-        run: npm run typecheck
+        run: pnpm typecheck
       - name: Run unit tests
-        run: npm test
+        run: pnpm test
       - name: Validate Chrome extension
-        run: npm run validate:extension
+        run: pnpm validate:extension
       - name: Build production assets
-        run: npm run build
+        run: pnpm build
 
   browser:
     name: Browser tests
@@ -51,14 +53,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
       - name: Run browser tests
-        run: npm run test:e2e
+        run: pnpm test:e2e

@@ -1,4 +1,8 @@
 node_modules
+.pnpm-store/
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
 dist
 .data
 test-results
@@ -15,3 +19,4 @@ LIBRARY_DOCS/
 OLD_replay_saved_interactions_playwright_from_chrome_extension/
 DOCKER_WORKSPACE_README.md
 test_files/
+example_prompt.md

@@ -1,6 +1,6 @@
 {
   "name": "pathproof",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local-first AI-assisted website regression discovery and deterministic Playwright replay.",
   "private": true,
   "license": "MIT",
@@ -15,8 +15,10 @@
   "homepage": "https://github.com/mikulabc/pathproof#readme",
   "keywords": ["playwright", "regression-testing", "browser-automation", "visual-testing", "ai-testing"],
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "pnpm": ">=11"
   },
+  "packageManager": "pnpm@11.10.0",
   "type": "module",
   "scripts": {
     "dev": "tsx watch server/index.ts",
@@ -25,7 +27,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "check": "npm run typecheck && npm test && npm run validate:extension && npm run build",
+    "check": "pnpm run typecheck && pnpm test && pnpm run validate:extension && pnpm run build",
     "validate:extension": "node --check chrome-extension/background.js && node --check chrome-extension/content-script.js && node --check chrome-extension/recorder.js && node --check chrome-extension/panel.js && node -e \"JSON.parse(require('fs').readFileSync('chrome-extension/manifest.json','utf8'))\""
   },
   "dependencies": {

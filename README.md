@@ -34,6 +34,7 @@ Every run remains inspectable: it includes its URL, action history, expected out
 ### Requirements
 
 - Node.js 22 or newer
+- pnpm 11 or newer
 - npm 10 or newer
 - Chromium, installed automatically by Playwright when needed
 
@@ -42,9 +43,9 @@ Every run remains inspectable: it includes its URL, action history, expected out
 ```bash
 git clone https://github.com/mikulabc/pathproof.git
 cd pathproof
-npm install
+pnpm install
 cp .env.example .env
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:43827](http://localhost:43827).
@@ -103,14 +104,14 @@ For component responsibilities and data flow, see [Architecture](docs/ARCHITECTU
 
 | Command | Purpose |
 | --- | --- |
-| `npm run dev` | Run the API and Vite development server |
-| `npm run build` | Type-check and build the production client |
-| `npm start` | Start the production server from `dist/` |
-| `npm run typecheck` | Run TypeScript checks |
-| `npm test` | Run unit tests |
-| `npm run test:e2e` | Run Playwright browser tests |
-| `npm run validate:extension` | Validate extension scripts and manifest |
-| `npm run check` | Run the complete non-browser quality suite |
+| `pnpm dev` | Run the API and Vite development server |
+| `pnpm build` | Type-check and build the production client |
+| `pnpm start` | Start the production server from `dist/` |
+| `pnpm typecheck` | Run TypeScript checks |
+| `pnpm test` | Run unit tests |
+| `pnpm test:e2e` | Run Playwright browser tests |
+| `pnpm validate:extension` | Validate extension scripts and manifest |
+| `pnpm check` | Run the complete non-browser quality suite |
 
 The full localhost discovery suite is opt-in:
 
@@ -118,7 +119,7 @@ The full localhost discovery suite is opt-in:
 PATHPROOF_ALLOW_LOCALHOST=1 \
 RUN_DISCOVERY_E2E=1 \
 PATHPROOF_DISABLE_AI=1 \
-npm run test:e2e
+pnpm test:e2e
 ```
 
 ## Data and privacy

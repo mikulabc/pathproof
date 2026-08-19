@@ -20,9 +20,9 @@ Pathproof loads `.env` from the repository root when the server starts. Exported
 ## Production
 
 ```bash
-npm ci
-npm run build
-NODE_ENV=production npm start
+pnpm install --frozen-lockfile
+pnpm build
+NODE_ENV=production pnpm start
 ```
 
 Pathproof is currently designed as a single-user local application. Do not expose it directly to an untrusted network without adding authentication, TLS termination, worker isolation, and appropriate storage controls.
