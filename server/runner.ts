@@ -998,9 +998,31 @@ export class RunCoordinator {
         return true;
       }).slice(0, instructionDriven ? 180 : 20);
     };
-    const serializedArguments = JSON.stringify({ instructionDriven: includeInstructionLinks, attachedFiles: fileNames });
-    const expression = `((__name) => (${discoverInPage.toString()})(${serializedArguments}))((target, value) => Object.defineProperty(target, "name", { value, configurable: true }))`;
-    return page.evaluate<CandidateAction[]>(expression);
+    // The tsx runtime preserves nested function names with an `__name` helper.
+    // Install that helper in the page temporarily so Playwright can serialize
+    // the function directly instead of constructing JavaScript from page data.
+    await page.evaluate(`(() => {
+      const stateKey = Symbol.for('pathproof.discovery.original-name-helper');
+      globalThis[stateKey] = Object.getOwnPropertyDescriptor(globalThis, '__name') || false;
+      Object.defineProperty(globalThis, '__name', {
+        value: (target, value) => Object.defineProperty(target, 'name', { value, configurable: true }),
+        configurable: true,
+      });
+    })()`);
+    try {
+      return await page.evaluate<CandidateAction[], { instructionDriven: boolean; attachedFiles: string[] }>(discoverInPage, {
+        instructionDriven: includeInstructionLinks,
+        attachedFiles: fileNames,
+      });
+    } finally {
+      await page.evaluate(`(() => {
+        const stateKey = Symbol.for('pathproof.discovery.original-name-helper');
+        const original = globalThis[stateKey];
+        if (original) Object.defineProperty(globalThis, '__name', original);
+        else delete globalThis.__name;
+        delete globalThis[stateKey];
+      })()`).catch(() => undefined);
+    }
   }
 
   private async replay(browser: Browser, runId: string, test: TestDefinition, playbackSpeed: number): Promise<void> {

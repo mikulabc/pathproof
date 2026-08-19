@@ -1,10 +1,10 @@
 import { expect, test, type APIRequestContext } from '@playwright/test';
-import { randomBytes } from 'node:crypto';
+import { randomInt } from 'node:crypto';
 
 const discoveryEnabled = process.env.RUN_DISCOVERY_E2E === '1';
 
 function uniqueFixtureOrigin() {
-  const octets = [...randomBytes(3)].map((value) => 1 + (value % 254));
+  const octets = Array.from({ length: 3 }, () => randomInt(1, 255));
   return `http://127.${octets.join('.')}:4317`;
 }
 

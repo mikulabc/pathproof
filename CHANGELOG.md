@@ -4,6 +4,14 @@ All notable changes to Pathproof are documented here. The project follows [Seman
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-19
+
+### Security
+
+- Replaced browser-side JavaScript construction with structured Playwright arguments for attached filenames.
+- Removed modulo bias from cryptographic test-origin generation.
+- Added a browser regression test for injection-shaped filenames and runtime-helper cleanup.
+
 ## [0.1.0] - 2026-08-19
 
 ### Added
@@ -23,5 +31,6 @@ All notable changes to Pathproof are documented here. The project follows [Seman
 - Desktop/mobile navigation duplicate resolution and overlay handling.
 - Accessible disambiguation for duplicate arrow controls and filters.
 
-[Unreleased]: https://github.com/mikulabc/pathproof/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mikulabc/pathproof/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/mikulabc/pathproof/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mikulabc/pathproof/releases/tag/v0.1.0
