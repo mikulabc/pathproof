@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pathproof.local/schemas/recording-v1.json",
+  "title": "Pathproof browser recording",
+  "type": "object",
+  "required": ["format", "version", "id", "name", "createdAt", "startedAt", "stoppedAt", "durationMs", "target", "browser", "events"],
+  "properties": {
+    "format": { "const": "pathproof-recording" },
+    "version": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "stoppedAt": { "type": "string", "format": "date-time" },
+    "durationMs": { "type": "number", "minimum": 0 },
+    "target": {
+      "type": "object",
+      "required": ["initialUrl", "finalUrl"],
+      "properties": {
+        "tabId": { "type": "integer" },
+        "initialUrl": { "type": "string", "format": "uri" },
+        "finalUrl": { "type": "string", "format": "uri" },
+        "title": { "type": "string" }
+      }
+    },
+    "browser": {
+      "type": "object",
+      "properties": {
+        "viewport": { "type": "object", "required": ["width", "height"], "properties": { "width": { "type": "number" }, "height": { "type": "number" } } },
+        "userAgent": { "type": "string" },
+        "locale": { "type": "string" },
+        "timezoneId": { "type": "string" },
+        "colorScheme": { "enum": ["light", "dark", "no-preference"] },
+        "cookies": { "type": "array", "items": { "type": "object", "required": ["name", "value", "domain"] } },
+        "localStorage": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "sequence", "at", "offsetMs", "kind", "url"],
+        "properties": {
+          "id": { "type": "string" },
+          "sequence": { "type": "integer", "minimum": 0 },
+          "at": { "type": "string", "format": "date-time" },
+          "offsetMs": { "type": "number", "minimum": 0 },
+          "kind": { "enum": ["navigation", "click", "dblclick", "pointerdown", "pointerup", "input", "change", "keydown", "focus", "scroll", "mousemove", "resize", "dom-mutation", "network-request", "network-response", "console", "exception", "lifecycle", "screenshot", "video-frame", "snapshot"] },
+          "url": { "type": "string" },
+          "selector": { "type": "string" },
+          "role": { "type": "string" },
+          "accessibleName": { "type": "string" },
+          "value": { "type": "string" },
+          "data": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

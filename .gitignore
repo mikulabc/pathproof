@@ -1,0 +1,17 @@
+node_modules
+dist
+.data
+test-results
+playwright-report
+*.log
+.env
+.env.*
+!.env.example
+.chunkhound.json
+.DS_Store
+.playwright-mcp/
+.serena/
+LIBRARY_DOCS/
+OLD_replay_saved_interactions_playwright_from_chrome_extension/
+DOCKER_WORKSPACE_README.md
+test_files/

@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Pathproof Session Recorder",
+  "version": "1.1.1",
+  "minimum_chrome_version": "125",
+  "description": "Record a browser journey and export it for deterministic Playwright replay.",
+  "permissions": [
+    "activeTab",
+    "cookies",
+    "debugger",
+    "downloads",
+    "scripting",
+    "storage",
+    "tabs",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "Record this tab with Pathproof"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

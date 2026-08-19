@@ -1,0 +1,12 @@
+{
+  "name": "pathproof-playwright-web-app",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm --prefix .. run dev",
+    "build": "npm --prefix .. run build",
+    "start": "npm --prefix .. run start",
+    "test": "npm --prefix .. test",
+    "test:e2e": "npm --prefix .. run test:e2e"
+  }
+}

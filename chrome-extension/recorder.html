@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pathproof Recorder</title>
+    <link rel="stylesheet" href="recorder.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="mark">P</span><div><strong>pathproof</strong><small>SESSION RECORDER</small></div></div>
+      <div id="statusPill" class="status-pill idle"><i></i><span>Ready to record</span></div>
+    </header>
+    <main>
+      <section class="hero">
+        <div><p class="eyebrow">BOUND BROWSER SESSION</p><h1>Record a replay-ready user journey.</h1><p>Pathproof watches the target tab while this control room stays open. Stop when the journey is complete, then import the compact recording into the Playwright app.</p></div>
+        <div class="hero-actions">
+          <button id="startButton" class="primary">Start recording</button>
+          <button id="stopButton" class="danger" disabled>Stop & prepare file</button>
+          <button id="downloadButton" class="download" hidden>Download compact JSON</button>
+        </div>
+      </section>
+
+      <section class="binding card">
+        <div class="binding-icon">↗</div><div><span>TARGET TAB <b id="tabId">—</b></span><strong id="targetTitle">Loading target…</strong><a id="targetUrl" href="#">—</a></div>
+        <button id="focusTarget" class="secondary">Open target tab</button>
+      </section>
+
+      <section class="card settings">
+        <div class="settings-heading">
+          <div><h2>Capture settings</h2><p>Choose what to include. Settings lock when recording starts.</p></div>
+          <label class="name-field"><span>Recording name</span><input id="recordingName" value="User journey" maxlength="120" /></label>
+        </div>
+        <div class="toggle-list">
+          <label><span><b>Mouse movement</b><small>Hover pauses and compact pointer paths</small></span><input id="mouseMoves" type="checkbox" checked /></label>
+          <label><span><b>Network debugger</b><small>Bounded request and response metadata</small></span><input id="network" type="checkbox" checked /></label>
+          <label><span><b>DOM monitoring</b><small>Bounded mutation summaries</small></span><input id="dom" type="checkbox" checked /></label>
+          <label><span><b>Compositor capture</b><small>Optional local-only debugger frames</small></span><input id="compositorStream" type="checkbox" checked /></label>
+          <label><span><b>Visual evidence</b><small>Optional local-only key JPEGs</small></span><input id="screenshots" type="checkbox" checked /></label>
+          <label><span><b>Network bodies</b><small>Inspected live, never embedded</small></span><input id="bodies" type="checkbox" checked /></label>
+          <label><span><b>Session state</b><small>Export cookies and local storage</small></span><input id="sessionState" type="checkbox" checked /></label>
+        </div>
+        <div class="settings-footer">
+          <div class="privacy"><span>⚿</span><p><strong>Record without a time limit.</strong> Replay actions remain in the JSON; large visual artifacts, bodies, and snapshots stay outside it.</p></div>
+          <p id="exportSummary" class="export-summary" hidden></p>
+          <p id="error" class="error" role="alert"></p>
+        </div>
+      </section>
+
+      <section class="layout">
+        <div class="main-column">
+          <div class="stats">
+            <article><span>EVENTS</span><strong id="eventCount">0</strong><small>captured signals</small></article>
+            <article><span>ELAPSED</span><strong id="elapsed">00:00</strong><small>recording duration</small></article>
+            <article><span>CURRENT PAGE</span><strong id="pageCount">1</strong><small>unique URLs</small></article>
+            <article><span>EXPORT SIZE</span><strong id="dataSize">0 KiB</strong><small>compact JSON estimate</small></article>
+          </div>
+          <section class="card activity-card">
+            <div class="section-head"><div><h2>Live capture stream</h2><p>Replay signals are exported; large visual artifacts stay local and are omitted from the JSON.</p></div><label><input id="follow" type="checkbox" checked /> Follow</label></div>
+            <div id="emptyState" class="empty"><span>◎</span><p>Waiting for events…</p></div>
+            <div id="eventList" class="events" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="recorder.js" type="module"></script>
+  </body>
+</html>
