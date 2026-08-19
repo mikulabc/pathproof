@@ -17,6 +17,17 @@ Most browser automation tools make you choose between brittle hand-authored scri
 
 Every run remains inspectable: it includes its URL, action history, expected outcome, actual outcome, screenshots, timing, and status.
 
+## Who is this for?
+
+- **Developers using AI coding assistants** who want to spend fewer tokens and less time repeatedly asking tools such as Claude to write and maintain Playwright tests. Discover or record a journey once, then replay the saved plan without AI.
+- **Website owners and non-technical teams** who want to monitor important pages and user journeys without having to write browser-automation code.
+- **UX and UI experts** who want to explore how AI interprets a site as a user—where it navigates, which controls it chooses, and how it interacts with the interface.
+- **QA and test engineers** who want to turn exploratory sessions and browser recordings into reviewable, repeatable regression coverage.
+- **Product and release teams** who need visual evidence that critical journeys still work before and after a release.
+- **Agencies and consultants** who maintain multiple websites and want locally stored, reusable journeys with clear replay evidence for each project.
+
+Every audience gets the same core benefit: a visual replay of the real browser journey, backed by the exact saved steps, outcomes, and evidence.
+
 ## Highlights
 
 - AI follows natural-language instructions one safe action at a time.
@@ -35,7 +46,6 @@ Every run remains inspectable: it includes its URL, action history, expected out
 
 - Node.js 22 or newer
 - pnpm 11 or newer
-- npm 10 or newer
 - Chromium, installed automatically by Playwright when needed
 
 ### Install and run
