@@ -1,5 +1,7 @@
 # Pathproof
 
+![Pathproof dashboard showing website projects and the guided setup workflow](docs/assets/pathproof-dashboard-hero.png)
+
 [![CI](https://github.com/mikulabc/pathproof/actions/workflows/ci.yml/badge.svg)](https://github.com/mikulabc/pathproof/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/mikulabc/pathproof/actions/workflows/codeql.yml/badge.svg)](https://github.com/mikulabc/pathproof/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
