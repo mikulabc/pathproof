@@ -50,7 +50,7 @@ Using the midpoint of those ranges:
 - Pathproof setup: **16,000 input + 500 output = 16,500 tokens**.
 - Illustrative saving: **about 60,000 tokens, or 78%**, while still producing a visually replayable journey.
 
-This is a planning estimate, not a universal benchmark or guaranteed saving. It assumes three to six coding-agent turns versus four to eight constrained Pathproof decisions. Actual usage changes with the model, tokenizer, repository size, page complexity, cache behavior, number of controls, and retries. Compare it with your own telemetry: Anthropic's [Claude Code Analytics API](https://platform.claude.com/docs/en/manage-claude/claude-code-analytics-api) reports input, output, cache-read, and cache-creation tokens by model, and its [token-counting guidance](https://platform.claude.com/docs/en/build-with-claude/token-counting) recommends measuring against the exact model in use.
+This is a planning estimate, not a universal benchmark or guaranteed saving. It assumes three to six coding-agent turns versus four to eight constrained Pathproof decisions. Actual usage changes with the model, tokenizer, repository size, page complexity, cache behavior, number of controls, and retries. Compare it with your own telemetry. We recommend measuring against the exact model in use.
 
 The comparison concerns initial authoring and AI-assisted repair. Once either approach has a stable Playwright test, ordinary deterministic execution should not need additional model tokens. Choose an agentic coding tool when the deliverable must be maintainable source code with bespoke engineering; choose Pathproof when the goal is to create, inspect, and visually replay a browser journey with less model context and no hand-authored test.
 
