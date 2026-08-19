@@ -1,7 +1,12 @@
 import { expect, test } from '@playwright/test';
 import { randomInt } from 'node:crypto';
 
-const uniquePublicOrigin = () => `https://example.com:${randomInt(10_000, 65_535)}`;
+const publicFixtureHosts = ['example.com', 'example.net', 'example.org', 'www.example.com', 'www.example.net', 'www.example.org'];
+const uniquePublicOrigin = () => {
+  const protocol = randomInt(0, 2) === 0 ? 'http' : 'https';
+  const hostname = publicFixtureHosts[randomInt(0, publicFixtureHosts.length)];
+  return `${protocol}://${hostname}:${randomInt(10_000, 65_535)}`;
+};
 
 test.describe('dashboard essentials', () => {
   test('creates a domain project and opens its workspace', async ({ page, request }) => {

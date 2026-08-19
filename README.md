@@ -1,62 +1,141 @@
 # Pathproof
 
-Pathproof is a local-first website regression workspace with two complementary capture paths. It can safely discover a public site from starting URLs, or import a high-fidelity journey from the bundled Chrome extension. Imported actions become deterministic Playwright plans; later runs retain live progress, browser frames, step evidence, changed text/URL diagnostics, and reports.
+[![CI](https://github.com/mikulabc/pathproof/actions/workflows/ci.yml/badge.svg)](https://github.com/mikulabc/pathproof/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mikulabc/pathproof/actions/workflows/codeql.yml/badge.svg)](https://github.com/mikulabc/pathproof/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)](package.json)
 
-The interface includes a three-step getting-started guide and contextual `?` help beside each domain-specific action, field, metric, status, table column, and run event. Help opens in an accessible dialog (or a phone-sized bottom sheet) without discarding form drafts or stopping background runs.
+Pathproof is a local-first website regression workspace. It combines safe AI-assisted discovery with deterministic Playwright replay, live browser evidence, and high-fidelity journeys captured by a bundled Chrome extension.
 
-## Run locally
+## Why Pathproof?
+
+Most browser automation tools make you choose between brittle hand-authored scripts and opaque autonomous agents. Pathproof separates setup from replay:
+
+1. **Discover or record** a journey once.
+2. **Review and save** stable, evidence-backed Pathfinder steps.
+3. **Replay deterministically** without calling AI again.
+
+Every run remains inspectable: it includes its URL, action history, expected outcome, actual outcome, screenshots, timing, and status.
+
+## Highlights
+
+- AI follows natural-language instructions one safe action at a time.
+- Local smart discovery works without an API key for generic public-page coverage.
+- Saved journeys replay with Playwright and do not call the AI planner.
+- Live Chromium frames, a visible replay cursor, and click evidence make runs observable.
+- The Chrome extension records navigation, pointer paths, inputs, DOM changes, network signals, screenshots, browser state, and optional compositor frames.
+- Same-origin and private-network protections constrain discovery.
+- Mutating requests and dangerous controls are blocked during safe discovery.
+- Imported recordings can restore replay-relevant viewport, locale, timezone, cookies, and local storage.
+- Projects, plans, run history, reports, and frames remain on the local machine.
+
+## Quick start
+
+### Requirements
+
+- Node.js 22 or newer
+- npm 10 or newer
+- Chromium, installed automatically by Playwright when needed
+
+### Install and run
 
 ```bash
+git clone https://github.com/mikulabc/pathproof.git
+cd pathproof
 npm install
+cp .env.example .env
 npm run dev
 ```
 
-Open `http://localhost:43827`. This is also the app's default port; set `PORT` to override it. Projects, test plans, run history, and frames are stored under `.data/` in this repository.
+Open [http://localhost:43827](http://localhost:43827).
 
-The same commands are exposed from `playwright-web-app/` for a clear two-folder distribution. Set `PATHPROOF_CONCURRENCY` from 1–16 to control simultaneous browser workers (default: 4), and `PATHPROOF_IMPORT_LIMIT` to change the default 250 MB JSON import limit.
+The `.env` file is local and ignored by Git. Do not commit credentials, recordings, cookie exports, or the `.data/` directory.
 
-## Record a browser journey
+## AI-assisted setup
 
-1. Load `chrome-extension/` as an unpacked extension from `chrome://extensions` and pin it.
-2. Open the page to test and click the Pathproof toolbar icon. It opens `recorder.html`; there is no popup.
-3. Choose capture settings and start. The recorder binds to that exact tab ID across navigations.
-4. Stop, download the `.pathproof.json` export, open its matching Pathproof project, and choose **Import recording**.
-5. Optionally supply a fixed cookie header, then run the saved test as often as needed.
+Generic local discovery does not require credentials. Natural-language, instruction-driven setup requires an OpenAI API key:
 
-The extension records user interactions plus debugger-injected raw pointer coordinates, scroll/resize signals, DOM mutations and a final DOM snapshot, Chrome debugger lifecycle/console/exception events, requests/responses, optional bodies, screenshots, performance metrics, browser settings, and optional cookies/local storage. Its compositor option records continuous `Page.startScreencast` frames into IndexedDB and merges them into the downloaded export without repeatedly rewriting them through extension storage.
-
-During Playwright replay, a separate Chrome DevTools Protocol compositor stream feeds the live right-side viewer. Recorded pointer trails are replayed with `page.mouse`, while an in-page cursor and click ripple make the interaction visible in the stream. The expand control fills only the current browser-tab viewport and deliberately does not invoke the operating-system fullscreen API.
-
-The first run works without credentials only for local smart discovery without AI instructions. Instruction-driven setup requires `OPENAI_API_KEY` in the repository's `.env` file (loaded automatically when Pathproof starts); `PATHPROOF_AI_MODEL` defaults to `gpt-5.6-luna`. Restart Pathproof after changing `.env`. Replays never call the planner.
-
-## Safety boundaries
-
-- Only HTTP(S) targets are accepted.
-- Private, loopback, link-local, and reserved targets are blocked by default.
-- Crawling stays on the project origin and stops after one linked level.
-- Smart-discovery workers block POST/PUT/PATCH/DELETE requests, dialogs, popups, and mutation-like controls.
-- Explicitly recorded journeys can replay mutating requests. Run them only against suitable test accounts/environments.
-- Ambiguous buttons must be explicitly marked safe by the target or match a non-mutating disclosure/navigation pattern.
-- Browser concurrency is bounded and configurable from 1–16.
-- Cookie, local-storage, and network-body capture starts enabled and can be switched off before recording. Recording files may contain credentials and must be treated as secrets.
-
-For the repository's controlled localhost fixture only, opt in with `PATHPROOF_ALLOW_LOCALHOST=1`.
-
-## Validate
-
-```bash
-npm run typecheck
-npm run build
-npm test
-npm run validate:extension
-npx playwright test
-PATHPROOF_ALLOW_LOCALHOST=1 RUN_DISCOVERY_E2E=1 PATHPROOF_DISABLE_AI=1 npm run test:e2e
+```dotenv
+OPENAI_API_KEY=your_api_key
+PATHPROOF_AI_MODEL=gpt-5.6-luna
 ```
 
-The default browser suite skips active localhost discovery. The opt-in command exercises real discovery, depth limits, mutation blocking, saved-plan replay, live frames, bulk runs, contextual-help isolation, keyboard focus, draft preservation, and mobile containment.
+Restart Pathproof after changing `.env`. The model only selects from a safety-filtered inventory of controls; it does not provide selectors or directly operate the browser. See [Configuration](docs/CONFIGURATION.md) for all settings.
 
-## Product boundary
+## Chrome extension recording
 
-This is a single-user, Chromium-focused local application. Chrome does not let extensions instrument protected pages such as `chrome://` or reproduce an entire profile byte-for-byte. Pathproof restores the replay-relevant viewport, user agent, locale, timezone, color scheme, cookies, local storage, and optional fixed cookie line, but it cannot reproduce installed extensions, OS keychains, hardware, or every source of browser fingerprinting. There is not yet hosted worker isolation, scheduling, CI integration, or a cross-browser matrix.
+1. Load `chrome-extension/` as an unpacked extension from `chrome://extensions`.
+2. Pin Pathproof and open the page you want to record.
+3. Select the Pathproof toolbar icon and start recording.
+4. Stop and download the `.pathproof.json` recording.
+5. Import it into the matching Pathproof project.
+6. Review cookies and browser state before replaying against a suitable test environment.
 
-`Page.startScreencast` exposes Chrome's compositor output. Whether that compositor is physically GPU-accelerated depends on the machine, Chrome launch mode, graphics drivers, and container configuration; Pathproof does not falsely label software-composited frames as hardware encoding.
+A packaged copy is available at [`public/pathproof-chrome-extension.zip`](public/pathproof-chrome-extension.zip).
+
+## Safety model
+
+Safe discovery applies the following boundaries:
+
+- Only HTTP and HTTPS targets are accepted.
+- Private, loopback, link-local, and reserved targets are blocked by default.
+- Crawling remains on the project origin and is depth-limited.
+- POST, PUT, PATCH, and DELETE requests are blocked.
+- Mutation-like and destructive controls are filtered out.
+- Cross-origin popups and navigation are rejected.
+- Sensitive form fields are not offered to the planner.
+
+Imported recordings are more powerful and may replay mutations. Treat recording files as sensitive because they can contain cookies, storage, request bodies, and user-entered values. See the [Security policy](SECURITY.md).
+
+## Architecture
+
+```text
+React workspace ──HTTP/SSE── Express API ──queue── Playwright/Chromium
+       │                          │                     │
+       │                          └── local JSON store  └── screenshots/stream
+       │
+Chrome recorder ──.pathproof.json import── deterministic replay plan
+```
+
+For component responsibilities and data flow, see [Architecture](docs/ARCHITECTURE.md).
+
+## Development
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Run the API and Vite development server |
+| `npm run build` | Type-check and build the production client |
+| `npm start` | Start the production server from `dist/` |
+| `npm run typecheck` | Run TypeScript checks |
+| `npm test` | Run unit tests |
+| `npm run test:e2e` | Run Playwright browser tests |
+| `npm run validate:extension` | Validate extension scripts and manifest |
+| `npm run check` | Run the complete non-browser quality suite |
+
+The full localhost discovery suite is opt-in:
+
+```bash
+PATHPROOF_ALLOW_LOCALHOST=1 \
+RUN_DISCOVERY_E2E=1 \
+PATHPROOF_DISABLE_AI=1 \
+npm run test:e2e
+```
+
+## Data and privacy
+
+- Application state is stored under `.data/` and is excluded from Git.
+- `.env` is excluded; `.env.example` contains only non-secret defaults.
+- Recordings and cookie exports should never be attached to public issues.
+- The repository uses neutral `example.com` fixtures and contains no customer data.
+
+## Project status
+
+Pathproof is an early-stage, single-user, Chromium-focused local application. Hosted worker isolation, scheduling, CI test execution against user sites, and a cross-browser matrix are not yet implemented. See the [changelog](CHANGELOG.md) for release history.
+
+## Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), follow the [Code of Conduct](CODE_OF_CONDUCT.md), and use the provided issue and pull-request templates. General support questions belong in [GitHub Discussions](https://github.com/mikulabc/pathproof/discussions).
+
+## License
+
+Pathproof is available under the [MIT License](LICENSE).

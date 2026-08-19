@@ -1,0 +1,62 @@
+name: Bug report
+description: Report reproducible incorrect behavior in Pathproof.
+title: "[Bug]: "
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve Pathproof. Please remove credentials, customer data, and private URLs from all examples.
+  - type: input
+    id: version
+    attributes:
+      label: Pathproof version or commit
+      placeholder: v0.1.0 or a commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Discovery and AI planning
+        - Deterministic replay
+        - Project and run management
+        - Chrome extension
+        - User interface
+        - Installation or build
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include the expected behavior and the actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Start Pathproof with...
+        2. Create a project...
+        3. Run discovery...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Node.js version, browser version, and relevant safe configuration.
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, customer data, private URLs, and sensitive recordings.
+          required: true

@@ -1,7 +1,22 @@
 {
   "name": "pathproof",
   "version": "0.1.0",
+  "description": "Local-first AI-assisted website regression discovery and deterministic Playwright replay.",
   "private": true,
+  "license": "MIT",
+  "author": "Mikula Beutl",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikulabc/pathproof.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikulabc/pathproof/issues"
+  },
+  "homepage": "https://github.com/mikulabc/pathproof#readme",
+  "keywords": ["playwright", "regression-testing", "browser-automation", "visual-testing", "ai-testing"],
+  "engines": {
+    "node": ">=22"
+  },
   "type": "module",
   "scripts": {
     "dev": "tsx watch server/index.ts",
@@ -10,6 +25,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "check": "npm run typecheck && npm test && npm run validate:extension && npm run build",
     "validate:extension": "node --check chrome-extension/background.js && node --check chrome-extension/content-script.js && node --check chrome-extension/recorder.js && node --check chrome-extension/panel.js && node -e \"JSON.parse(require('fs').readFileSync('chrome-extension/manifest.json','utf8'))\""
   },
   "dependencies": {
