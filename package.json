@@ -49,7 +49,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "jsdom": "29.0.1",
+    "jsdom": "31.0.0",
     "tsx": "latest",
     "typescript": "latest",
     "vitest": "latest"
